@@ -16,4 +16,27 @@ public class RegistrationPlate {
         return country + " " + regCode;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        
+        if(getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        RegistrationPlate registrationPlate = (RegistrationPlate) obj;
+        
+        if(regCode == null || country == null) {
+            return false;
+        }
+        
+        return regCode.equals(registrationPlate.regCode) && country.equals(registrationPlate.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.regCode.hashCode() + this.country.hashCode();
+    }
 }
