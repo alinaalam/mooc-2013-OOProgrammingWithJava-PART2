@@ -14,24 +14,30 @@ import java.util.Random;
 public class Cow implements Milkable, Alive {
     
     private String name;
-    private int capacity;
-    private double amount;
+    private double capacity;
+    private double amount; // amount left in udder
     
-    private static final String[] NAMES = new String[]{
+    private static final String[] NAMES;
+    private final double START_LITRE_RANGE = 0.7;
+    private final double END_LITRE_RANGE = 2.0;
+    
+    static {
+        NAMES = new String[]{
         "Anu", "Arpa", "Essi", "Heluna", "Hely",
         "Hento", "Hilke", "Hilsu", "Hymy", "Ihq", "Ilme", "Ilo",
         "Jaana", "Jami", "Jatta", "Laku", "Liekki",
         "Mainikki", "Mella", "Mimmi", "Naatti",
         "Nina", "Nyytti", "Papu", "Pullukka", "Pulu",
         "Rima", "Soma", "Sylkki", "Valpu", "Virpi"};
+    }
 
     public Cow() {
-        name = NAMES[new Random().nextInt(NAMES.length)];
-        capacity = 15 + new Random().nextInt(26);
+        this(NAMES[new Random().nextInt(NAMES.length)]);
     }
 
     public Cow(String name) {
         this.name = name;
+        this.capacity = 15 + new Random().nextInt(26);
     }
 
     public String getName() {
@@ -41,28 +47,32 @@ public class Cow implements Milkable, Alive {
     public double getCapacity() {
         return capacity;
     }
-    
+
     public double getAmount() {
         return amount;
     }
 
     @Override
     public String toString() {
-        return name + " " + Math.ceil(getAmount()) + "/" + getCapacity();
+        return name + " " + Math.ceil(amount) + "/" + capacity;
     }
 
     @Override
     public double milk() {
-        double temp = amount;
-        amount = 0.0;
-        return temp;
+        double amountToBeMilked = amount;
+        amount = 0;
+        return amountToBeMilked;
     }
 
     @Override
     public void liveHour() {
-        double amountToAdd = 0.7;
-        if((amount + amountToAdd) <= capacity) {
-            amount += amountToAdd;
+        double random = (START_LITRE_RANGE + (new Random().nextDouble()) * (END_LITRE_RANGE - START_LITRE_RANGE));
+        if((random + amount) <= capacity) {
+            amount += random;
+        }
+        else {
+            amount = capacity;
         }
     }
+    
 }

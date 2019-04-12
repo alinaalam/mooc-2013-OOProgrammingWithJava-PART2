@@ -10,25 +10,25 @@ package farmsimulator;
  * @author alinaalam
  */
 public class MilkingRobot {
+    
+    private BulkTank bulkTank;
 
-    BulkTank tank;
-           
     public MilkingRobot() {
-        tank = null;
     }
-    
+
     public BulkTank getBulkTank() {
-        return tank;
+        return bulkTank;
     }
-    
-    public void setBulkTank(BulkTank tank) {
-        this.tank = tank;
+
+    public void setBulkTank(BulkTank bulkTank) {
+        this.bulkTank = bulkTank;
     }
     
     public void milk(Milkable milkable) {
-        if(tank == null) {
+        try {
+            bulkTank.addToTank(milkable.milk());
+        } catch (NullPointerException e) {
             throw new IllegalStateException();
         }
-        tank.addToTank(milkable.milk());
     }
 }

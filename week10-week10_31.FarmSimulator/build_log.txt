@@ -64,6 +64,9 @@ deps-jar:
 -compile-depend:
 
 -do-compile:
+    [javac] Compiling 2 source files to /Users/alinaalam/NetBeansProjects/mooc-2013-OOProgrammingWithJava-PART2/week10-week10_31.FarmSimulator/build/classes
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.6
+    [javac] 1 warning
 
 -post-compile:
 

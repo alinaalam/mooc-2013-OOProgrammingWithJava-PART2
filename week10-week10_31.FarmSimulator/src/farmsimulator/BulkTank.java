@@ -15,7 +15,7 @@ public class BulkTank {
     private double volume;
     
     public BulkTank() {
-        this.capacity = 2000;
+        this(2000);
     }
 
     public BulkTank(double capacity) {
@@ -36,22 +36,23 @@ public class BulkTank {
     
     public void addToTank(double amount) {
         if(amount > 0) {
-            if(amount > capacity) {
-                volume = capacity;
-            }
-            else if((volume + amount) <= capacity) {
-                volume += amount;
-            }
+            volume = ((amount + volume) > capacity) ? capacity : volume + amount;
         }
     }
     
     public double getFromTank(double amount) {
-        if(volume < amount) {
-            volume = 0.0;
-            return 0.0;
+        double amountToGet = 0.0;
+        if(amount > 0) {
+            if((volume - amount) <= 0) {
+                amountToGet = volume;
+                volume = 0;
+            }
+            else {
+                amountToGet = amount;
+                volume -= amount;
+            }
         }
-        volume -= amount;
-        return amount;
+        return amountToGet;
     }
 
     @Override
