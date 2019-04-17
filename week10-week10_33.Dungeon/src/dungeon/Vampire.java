@@ -11,14 +11,7 @@ package dungeon;
  */
 public class Vampire extends Character {
 
-    private boolean isAlive;
-
     public Vampire() {
         super("v");
-    }
-
-    @Override
-    public boolean isAlive() {
-        return isAlive;
     }
 }

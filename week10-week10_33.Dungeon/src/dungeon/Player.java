@@ -22,8 +22,31 @@ public class Player extends Character {
         this.moves = moves;
     }
     
-    @Override
-    public boolean isAlive() {
-        return moves > 0;
+    public void goUp() {
+        int newPosition = getCurrentYPos() - 1;
+        if(newPosition >= 0) {
+            setCurrentYPos(newPosition);
+        }
+    }
+    
+    public void goLeft() {
+        int newPosition = getCurrentXPos() - 1;
+        if(newPosition >= 0) {
+            setCurrentXPos(newPosition);
+        }
+    }
+    
+    public void goDown() {
+        int newPosition = getCurrentYPos() + 1;
+        if(newPosition < height) {
+            setCurrentYPos(newPosition);
+        }
+    }
+    
+    public void goRight() {
+        int newPosition = getCurrentXPos() + 1;
+        if(newPosition < length) {
+            setCurrentXPos(newPosition);
+        }
     }
 }
