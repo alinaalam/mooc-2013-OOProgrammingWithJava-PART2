@@ -1,6 +1,5 @@
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 /*
@@ -13,22 +12,23 @@ import javax.swing.JTextField;
  *
  * @author alinaalam
  */
-public class SubtractActionListener implements ActionListener{
-
-    private JTextField field1;
-    private JTextField field2;
-
-    public SubtractActionListener(JTextField field1, JTextField field2) {
-        this.field1 = field1;
-        this.field2 = field2;
+public class SubtractActionListener extends ButtonActionListener {
+    
+    public SubtractActionListener(JTextField outputField, JTextField inputField) {
+        super(outputField, inputField);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        int field1Value = (field1.getText().isEmpty()) ? 0 : Integer.valueOf(field1.getText());
-        
-        int diff = field1Value - Integer.valueOf(field2.getText());
-        field1.setText(String.valueOf(diff));
+        try {
+            int outputFieldValue = getOutputFieldValue();
+            int diff = outputFieldValue - getInputFieldValue();
+            outputField.setText(String.valueOf(diff));
+        } catch (NumberFormatException ex) {
+            // do nothing
+        } finally {
+            wipeInputField();
+        }
     }
     
 }

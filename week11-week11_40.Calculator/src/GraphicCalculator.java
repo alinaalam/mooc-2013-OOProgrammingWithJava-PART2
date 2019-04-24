@@ -1,5 +1,4 @@
 
-import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -8,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class GraphicCalculator implements Runnable {
     private JFrame frame;
@@ -25,37 +26,61 @@ public class GraphicCalculator implements Runnable {
     }
 
     private void createComponents(Container container) {
+        container.setLayout(new GridLayout(3, 1));
         
-        JTextField field1 = new JTextField();
-        field1.setEnabled(false);
+        JTextField outputField = new JTextField("0");
+        outputField.setEnabled(false);
         
-        JTextField field2 = new JTextField("0");
+        JTextField inputField = new JTextField("0");
         
-        JPanel panel = new JPanel(new GridLayout(2, 1));
-        
-        panel.add(field1);
-        panel.add(field2);
-        
-        container.add(panel, BorderLayout.CENTER);
-        container.add(addButtons(field1, field2), BorderLayout.SOUTH);
+        container.add(outputField);
+        container.add(inputField);
+        container.add(addButtons(outputField, inputField));
     }
     
-    private JPanel addButtons(JTextField field1, JTextField field2) {
+    private JPanel addButtons(JTextField outputField, JTextField inputField) {
         JPanel panel = new JPanel(new GridLayout(1, 3));
         
         JButton addButton = new JButton("+");
-        addButton.addActionListener(new AddActionListener(field1, field2));
+        addButton.addActionListener(new AddActionListener(outputField, inputField));
         
         JButton subtractButton = new JButton("-");
-        subtractButton.addActionListener(new SubtractActionListener(field1, field2));
+        subtractButton.addActionListener(new SubtractActionListener(outputField, inputField));
         
         JButton clearButton = new JButton("Z");
+        clearButton.addActionListener(new ClearActionListener(outputField, inputField));
+        
+        addChangeListener(outputField, clearButton);
         
         panel.add(addButton);
         panel.add(subtractButton);
         panel.add(clearButton);
         
         return panel;
+    }
+    
+    private void addChangeListener(final JTextField field, final JButton button) {
+        button.setEnabled(!field.getText().equals("0"));
+        field.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                enableDisableButton();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                enableDisableButton();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                enableDisableButton();
+            }
+            
+            private void enableDisableButton() {
+                button.setEnabled(!field.getText().equals("0"));
+            }
+        });
     }
 
     public JFrame getFrame() {
