@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reference.domain;
+package reference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import reference.domain.Film;
+import reference.domain.Person;
+import reference.domain.Rating;
 
 /**
  *
@@ -55,7 +58,7 @@ public class RatingRegister {
     }
     
     public Map<Film, Rating> getPersonalRatings(Person person) {
-        return personalizedRating.get(person);
+        return personalizedRating.getOrDefault(person, new HashMap<Film, Rating>());
     }
     
     public List<Person> reviewers() {
