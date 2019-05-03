@@ -45,9 +45,6 @@ public class Film {
             return false;
         }
         final Film other = (Film) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        return true;
+        return !((this.name == null) ? (other.name != null) : !this.name.equals(other.name));
     }
 }

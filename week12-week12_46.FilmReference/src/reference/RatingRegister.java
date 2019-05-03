@@ -50,11 +50,13 @@ public class RatingRegister {
         }
     }
     public Rating getRating(Person person, Film film) {
-        if(!personalizedRating.containsKey(person)) {
-            return Rating.NOT_WATCHED;
+        if(personalizedRating.containsKey(person)) {
+            Map<Film, Rating> rating = personalizedRating.get(person);
+            if(rating.containsKey(film)) {
+                return rating.get(film);
+            }
         }
-        Map<Film, Rating> rating = personalizedRating.get(person);
-        return (rating.containsKey(film)) ? rating.get(film) : Rating.NOT_WATCHED;
+        return Rating.NOT_WATCHED;
     }
     
     public Map<Film, Rating> getPersonalRatings(Person person) {
