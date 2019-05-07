@@ -20,6 +20,7 @@ public class Worm {
     private int y;
     private Direction direction;
     private List<Piece> pieces;
+    private boolean grow;
     
     public Worm(int originalX, int originalY, Direction originalDirection) {
         this.x = originalX;
@@ -57,14 +58,17 @@ public class Worm {
         if(direction == Direction.UP) {
             y--;
         }
-        if(this.pieces.size() >= 3) {
+        if(this.pieces.size() >= 3 && !grow) {
             this.pieces.remove(0);
+        }
+        if(grow) {
+            grow = false;
         }
         this.pieces.add(new Piece(x, y));
     }
     
     public void grow() {
-        
+        grow = true;
     }
     
     public boolean runsInto(Piece piece) {
@@ -85,5 +89,13 @@ public class Worm {
             }
         }
         return false;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
