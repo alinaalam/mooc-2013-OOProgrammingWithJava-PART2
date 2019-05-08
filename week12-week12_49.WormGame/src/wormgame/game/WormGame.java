@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.swing.Timer;
 import wormgame.Direction;
 import wormgame.domain.Apple;
+import wormgame.domain.Piece;
 import wormgame.domain.Worm;
 import wormgame.gui.Updatable;
 
@@ -27,7 +28,7 @@ public class WormGame extends Timer implements ActionListener {
         this.continues = true;
         
         this.worm = new Worm(width/2, height/2, Direction.DOWN);
-        
+       
         random = new Random();
         
         this.apple = createApple(width, height);
@@ -38,7 +39,12 @@ public class WormGame extends Timer implements ActionListener {
     }
     
     private Apple createApple(int width, int height) {
-        return new Apple(random.nextInt(width), random.nextInt(height));
+        while(true) {
+            Apple newApple = new Apple(random.nextInt(width), random.nextInt(height));
+            if(!this.worm.runsInto(newApple)) {
+                return newApple;
+            }
+        }
     }
     
     public Worm getWorm() {
@@ -79,15 +85,27 @@ public class WormGame extends Timer implements ActionListener {
             return;
         }
         worm.move();
-        if(worm.runsInto(apple)) {
+        if(worm.runsInto(apple)) { 
             worm.grow();
             apple = createApple(width, height);
         }
-        if(worm.runsIntoItself()) {
+        if(worm.runsIntoItself() || wormHasHitTheWall()) {
             continues = false;
         }
         updatable.update();
         setDelay(1000 / worm.getLength());
+    }
+    
+    private boolean wormHasHitTheWall() {
+        for(Piece piece : worm.getPieces()) {
+            if(piece.getX() < 0 || piece.getX() >= width) {
+                return true;
+            }
+            if(piece.getY() < 0 || piece.getY() >= height) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

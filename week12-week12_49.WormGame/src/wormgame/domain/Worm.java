@@ -19,7 +19,7 @@ public class Worm {
     private int x;
     private int y;
     private Direction direction;
-    private List<Piece> pieces;
+    private final List<Piece> pieces;
     private boolean grow;
     
     public Worm(int originalX, int originalY, Direction originalDirection) {
@@ -89,13 +89,5 @@ public class Worm {
             }
         }
         return false;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 }
